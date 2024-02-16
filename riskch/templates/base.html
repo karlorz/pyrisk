@@ -1,0 +1,24 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Riskch</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+    <h1><a href="{{ url_for('index') }}">Riskch</a></h1>
+    <ul>
+    </ul>
+  </nav>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+<nav>
+  <ul>
+  Monte Carlo settings: <br>
+  5% risk of 10% drawdown, the tail risk — the maximum drawdown at the 95th percentile — is greater than 10%.<br>
+  100 runs of Monte Carlo simulation, use the Monte Carlo technique to create 100 individual equity curves to construct the distribution of drawdowns. (more runs consume more time but much accuracy)
+  </ul>
+</nav>

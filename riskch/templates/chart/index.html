@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>10 equally likely equity curves</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>10 equally likely equity curves</h1>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var labels = {{ labels | tojson }};
+        var data = {{ data | tojson }};
+        var numLines = {{ num_lines }};
+        // Array of 10 unique colors
+        var uniqueColors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "teal", "brown", "gray"];
+
+        var datasets = [];
+        for (var i = 0; i < numLines; i++) {
+            var dataset = {
+                label: 'Line ' + (i + 1),
+                data: data[i],
+                fill: false,
+                borderColor: uniqueColors[i % uniqueColors.length],
+                tension: 0.1
+            };
+            datasets.push(dataset);
+        }
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {}
+        });
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>

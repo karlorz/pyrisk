@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Porfolio{% endblock %}</h1>
+    <a class="action" href="{{ url_for('mpool.create') }}">Add Issue</a>
+{% endblock %}
+
+{% block content %}
+
+<article class="issue">
+  <div class="container">
+    <div class="name"></div>
+    <div class="title">CAR25(%)</div>
+    <div class="title">SafeF(%)</div>
+    <div class="title">Correlation</div>
+    <div class="func">Functions</div>
+    <div class="title">From</div>
+    <div class="title">To</div>
+    <div class="edit"></div>
+  </div> 
+  <hr>
+</article>
+  {% for issue in issues %}
+    <article class="issue">
+      <div class="container">
+        <div class="name">{{ issue['issue'] }}</div>
+        <div class="data">{{ "%.2f"|format(issue['car25']) }}</div>
+        <div class="data">{{ "%.1f"|format(issue['safef']) }}</div>
+        <div class="data">{{ "%.2f"|format(issue['cor2bench']) }}</div>
+        <div class="func">
+          <a class="action" href="{{ url_for('mpool.sim', id=issue['id']) }}">Compute</a>
+          {% if issue['car25'] != 0 %}
+          <a class="action" href="{{ url_for('chart.hist', id=issue['id']) }}">Historical chart</a>
+          <a class="action" href="{{ url_for('chart.simchart', id=issue['id']) }}">Monte Carlo</a>
+          {% else %}compute first
+          {% endif %}
+        </div>
+        <div class="data">{{ issue['fromdate'] }}</div>
+        <div class="data">{{ issue['todate'] }}</div>
+        <div class="edit">      
+          <a class="action" href="{{ url_for('mpool.update', id=issue['id']) }}">Edit</a>
+        </div>
+      </div> 
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

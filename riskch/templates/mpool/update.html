@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ oneissue['issue'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <a class="action" href="{{ url_for('mpool.search', issue=oneissue['issue']) }}">Search Symbol</a>
+  <form method="post">
+    <label for="issue">Issue</label>
+    <input name="issue" id="issue"
+      value="{{ request.form['issue'] or oneissue['issue'] }}" required>
+    <label for="from_date">From Date:</label>
+    <input type="date" id="from_date" name="from_date" value="{{ request.form['from_date'] or oneissue['fromdate'] }}" required>
+    <label for="to_date">To Date:</label>
+    <input type="date" id="to_date" name="to_date" value="{{ request.form['to_date'] or oneissue['todate'] }}" required> 
+    <input type="submit" value="Save">
+  </form>
+
+  <hr>
+  <form action="{{ url_for('mpool.delete', id=oneissue['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}
